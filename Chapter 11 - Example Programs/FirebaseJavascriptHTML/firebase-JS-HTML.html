@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Firebase V9 input</title>
+    <!-- CSS only -->
+    <!-- Add your CSS here - either use a library or make your own css rules-->
+
+
+
+  </head>
+<body>
+  <!-- Start of Form -->
+<div class="">
+    <h1>Please fill out the form</h1>
+<form>
+    <div class="">
+      <label>Name</label>
+      <input type="text" id="nameBox" class="">
+    </div>
+
+    <div class="">
+      <label>Roll number</label>
+      <input type="text" id="rollBox" class="">
+    </div>
+
+    <div class="">
+        <label>Section</label>
+        <input type="text" id="secBox" class="">
+    </div>
+
+    <div class="">
+        <label>Gender</label>
+        <select id ="genderBox" class="">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+    </div>
+
+    <hr>
+  <!--Add more buttons here -->
+    <button type="button" id="insertBtn" class="">Insert</button>
+
+    </form>
+  <hr>
+      <table class="" align="center">
+      <thead>
+      <tr>
+      <th>Item</th>
+      <th>Name</th>
+      <th>Roll</th>
+      <th>Section</td>
+      <th>Gender</th>
+      </tr>
+      </thead>
+      <tbody id="tbody1">
+      </tbody>
+      </table>
+  
+</div>
+
+<!-- End of Form -->
+<!--FB connection string -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+  //import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js";
+
+  //Heads UP!! note add databaseURL to the config this isnt in the copy paste version from FB.
+  //databaseURL: "ENTER YOUR URL",
+  const firebaseConfig = {
+    apiKey: "ENTER YOUR DATA",
+    authDomain: "ENTER YOUR DATA",
+    databaseURL: "ENTER YOUR URL",
+    projectId: "ENTER YOUR DATA",
+    storageBucket: "ENTER YOUR DATA",
+    messagingSenderId: "ENTER YOUR DATA",
+    appId: "ENTER YOUR DATA",
+    measurementId: "ENTER YOUR DATA"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  //const analytics = getAnalytics(app);
+
+//Add these lines to include the modules required for managing the database.
+//Child means a subset of the database E.g. Students > RecordID (Name, Roll, Section, Gender)
+  import {getDatabase,set,ref,get,child,update,remove}
+  from "https://www.gstatic.com/firebasejs/9.4.1/firebase-database.js";
+//References
+  const db = getDatabase();
+//make the form items into variables and capture their input by referecing the id
+  var namebox = document.getElementById("nameBox");
+  var rollbox = document.getElementById("rollBox");
+  var secbox = document.getElementById("secBox");
+  var genderbox = document.getElementById("genderBox");
+
+  //buttons add yours here
+  var insertbtn = document.getElementById("insertBtn");
+ 
+
+//------------------Insert Data Function - use set module -------------------//
+function insertData(){
+//set makes the rollbox value the unique id if the same rollbox value is entered its overwritten
+//push will add a unique value to the DB
+  set(ref(db, "TheStudents/"+ rollbox.value),{
+  //push(ref(db, "TheStudents/"),{
+    NameofStu: namebox.value,
+    RollNumber: rollbox.value,
+    Section: secbox.value,
+    Gender: genderbox.value
+  })
+  .then(()=>
+          {alert("Data stored successfully");
+})
+.catch((error)=>
+          {alert("Error"+error);
+
+});
+}
+//------------------Assign Events to buttons -------------------//
+// when insert button is clicked run the insertData function
+//Add listeners for your other buttons
+insertbtn.addEventListener("click", insertData);
+</script>
+
+</body>
+</html>

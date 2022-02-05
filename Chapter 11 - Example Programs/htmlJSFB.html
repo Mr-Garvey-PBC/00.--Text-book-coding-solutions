@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    Enter Name: <input type="text" id="name"></input>
+    <br/>
+    Enter Age: <input type="text" id ="age"></input>
+    <br/>
+  <button onclick="insertRecord()">
+    Insert Record</button>
+  </div>
+
+
+
+</body>
+</html>
+<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+<script>
+
+  var config = {
+    apiKey: "AIzaSyAFvWjaNWdLfZC_43Xk2gIIEjmxe3OqWqQ",
+    authDomain: "huwtestfirebase.firebaseapp.com",
+    projectId: "huwtestfirebase",
+    storageBucket: "huwtestfirebase.appspot.com",
+    messagingSenderId: "529127775175",
+    appId: "1:529127775175:web:f6aa7e7232a525480c17e2",
+    measurementId: "G-QNXNL8RSBN"
+
+  };
+
+  // Initialize Firebase
+
+firebase.initializeApp(config);
+
+function insertRecord(){
+
+  var nameVar = document.getElementById('name').value;
+  var ageVar = document.getElementById('age').value;
+
+  var myDBConn = firebase.database().ref();
+  var myDataLoc =myDBConn.child('huwData/users');
+  var data = myDataLoc.push();
+  data.set({
+    name : nameVar,
+    age: ageVar
+  }
+  );
+
+}
+
+</script>
